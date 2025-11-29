@@ -1,41 +1,18 @@
 "use client";
 
-import { addToCart } from "@/lib/cart";
-import Link from "next/link";
+import { products } from "@/lib/products";
+import ProductCard from "@/components/ProductCard";
 
-export default function ProductCard({ product }) {
+export default function ShopPage() {
   return (
-    <div className="border border-white/10 bg-neutral-900 p-5 rounded-xl">
-      <img
-        src={product.image}
-        alt={product.name}
-        className="w-full h-56 object-cover rounded-md mb-4"
-      />
+    <div className="p-10 max-w-6xl mx-auto">
+      <h1 className="text-4xl font-bold mb-8">Boutique NV</h1>
 
-      <h2 className="text-2xl font-semibold">{product.name}</h2>
-
-      <p className="text-neutral-400 mt-2">{product.description}</p>
-
-      <p className="text-xl font-bold mt-3">{product.price}€</p>
-
-      {/* --- BOUTON AJOUTER AU PANIER --- */}
-      <button
-        className="mt-4 w-full bg-white text-black py-2 rounded-md font-semibold hover:bg-neutral-300 transition"
-        onClick={() => {
-          addToCart(product);
-          alert("Ajouté au panier !");
-        }}
-      >
-        Ajouter au panier
-      </button>
-
-      {/* --- BOUTON ESSAYER (TRY ON) --- */}
-      <Link
-        href={`/try/${product.id}`}
-        className="mt-3 w-full block text-center bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-400 transition"
-      >
-        Essayer
-      </Link>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </div>
   );
 }

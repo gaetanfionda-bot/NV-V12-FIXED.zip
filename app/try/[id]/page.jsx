@@ -1,8 +1,7 @@
 "use client";
 
 import { useParams } from "next/navigation";
-import products from "@/lib/products"; // OU ta source produits finale
-import "@google/model-viewer";
+import { products } from "@/lib/products";
 
 export default function TryOnPage() {
   const { id } = useParams();

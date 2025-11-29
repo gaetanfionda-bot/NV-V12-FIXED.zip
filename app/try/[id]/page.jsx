@@ -1,101 +1,85 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { products } from "@/lib/products"; 
-import "@google/model-viewer";
+import { useParams } from "next/navigation";
+import { products } from "@/lib/products";
 
-export default function TryOnPage() {
+export default function TryPage() {
   const { id } = useParams();
-  const router = useRouter();
-
   const product = products.find((p) => p.id === id);
 
-  if (!product) {
-    return (
-      <div className="p-10 text-center">
-        <h1 className="text-3xl font-bold mb-4">Produit introuvable</h1>
-      </div>
-    );
-  }
+  if (!product) return <div className="p-10 text-center">Produit introuvable</div>;
 
   return (
-    <div className="relative w-full h-screen overflow-hidden text-white">
+    <div className="relative w-full min-h-screen text-white overflow-hidden">
 
-      {/* --- FOND VIDÉO FULLSCREEN --- */}
+      {/* 🔥 FOND VIDÉO GLOBAL (mobile-friendly) */}
       <video
         src="/video/background.mp4"
         autoPlay
-        muted
         loop
+        muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover opacity-70"
+        className="
+          absolute inset-0 w-full h-full object-cover
+          opacity-60
+        "
       />
 
-      {/* --- OVERLAY LUXE --- */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/80" />
+      {/* FONDU NOIR LEGER POUR LIRE LE TEXTE */}
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
-      {/* --- CONTENU --- */}
-      <div className="relative z-10 flex flex-col items-center justify-center h-full px-6 text-center animate-fadeIn">
+      {/* 🥽 ZONE CONTENU */}
+      <div className="relative z-20 flex flex-col items-center text-center px-6 pt-24">
 
-        {/* NOM LUNETTES */}
-        <h1 className="text-5xl font-extrabold tracking-widest drop-shadow-xl mb-4">
+        {/* NOM DU PRODUIT */}
+        <h1 className="text-4xl md:text-6xl font-extrabold tracking-wide drop-shadow-xl">
           {product.name}
         </h1>
 
-        {/* DJ ÉDITION SPÉCIALE */}
-        {product.specialEdition && (
-          <p className="text-lg uppercase tracking-[0.3em] text-blue-400 mb-6 opacity-90">
-            ÉDITION SPÉCIALE — {product.specialEdition}
+        {/* BADGE ÉDITION SPÉCIALE (si défini plus tard dans admin) */}
+        {product.special && (
+          <p className="mt-2 text-sm uppercase tracking-widest text-yellow-400">
+            ✦ ÉDITION SPÉCIALE ✦
           </p>
         )}
 
         {/* DESCRIPTION */}
-        <p className="max-w-2xl text-neutral-300 mb-8 text-lg">
+        <p className="mt-4 text-lg text-neutral-300 max-w-md leading-relaxed">
           {product.description}
         </p>
 
-        {/* --- MODEL-VIEWER --- */}
-        <model-viewer
-          src={product.model3D}
-          alt={product.name}
-          camera-controls
-          auto-rotate
-          ar
-          className="w-full max-w-3xl h-[400px]"
-        ></model-viewer>
-
         {/* PRIX */}
-        <p className="text-3xl font-bold mt-10">{product.price}€</p>
+        <p className="mt-3 text-3xl font-bold">{product.price}€</p>
 
-        {/* --- CTA --- */}
-        <div className="flex gap-4 mt-10">
-          <button
-            onClick={() => router.push("/shop")}
-            className="px-6 py-3 bg-white text-black font-bold rounded-lg hover:bg-neutral-300 transition"
-          >
-            Retour à la boutique
-          </button>
+        {/* ESPACE */}
+        <div className="h-10" />
 
+        {/* 🟩 BOUTONS — VERSION MOBILE OPTIMISÉE */}
+        <div className="w-full max-w-xs flex flex-col gap-4">
+
+          {/* CTA PANIER */}
           <button
-            onClick={() => alert('Ajouté au panier !')}
-            className="px-6 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-500 transition shadow-lg shadow-blue-900/50"
+            className="
+              w-full py-4 rounded-xl font-bold text-black bg-white
+              text-lg shadow-lg hover:bg-neutral-200 transition
+            "
           >
             Ajouter au panier
           </button>
+
+          {/* CTA RETOUR */}
+          <a
+            href="/shop"
+            className="
+              w-full py-3 rounded-xl font-semibold
+              text-white bg-white/10 backdrop-blur-md border border-white/20
+              hover:bg-white/20 transition
+            "
+          >
+            Retour à la boutique
+          </a>
         </div>
       </div>
-
-      {/* ANIMATION KEYFRAMES */}
-      <style jsx>{`
-        .animate-fadeIn {
-          animation: fadeIn 1.2s ease-out forwards;
-        }
-        @keyframes fadeIn {
-          0% { opacity: 0; transform: translateY(20px); }
-          100% { opacity: 1; transform: translateY(0); }
-        }
-      `}</style>
-
     </div>
   );
 }

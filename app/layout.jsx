@@ -16,10 +16,6 @@ export default function RootLayout({ children }) {
         <Footer />
 
         {/* SCRIPT MODEL VIEWER */}
-        <script
-          type="module"
-          src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"
-        ></script>
       </body>
     </html>
   );

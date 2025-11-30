@@ -1,17 +1,24 @@
 "use client";
 import "@google/model-viewer";
-import { useRouter } from "next/navigation";
 
 export default function TryOnViewer({ model }) {
-  const router = useRouter();
+  if (!model) return <p>Modèle introuvable</p>;
 
-  const models = {
-    ld007: "/models/LD007.glb",
-    ld008: "/models/LD008.glb",
-    nv12: "/models/NV12.glb",
-    "nv-hoodie": "/models/NV_HOODIE.glb",
-    "nv-cap": "/models/NV_CAP.glb",
-  };
+  return (
+    <div className="w-full h-[70vh] flex items-center justify-center bg-black">
+      <model-viewer
+        src={model}
+        camera-controls
+        auto-rotate
+        shadow-intensity="1"
+        exposure="1.1"
+        environment-image="neutral"
+        style={{ width: "100%", height: "100%" }}
+      ></model-viewer>
+    </div>
+  );
+}
+
 
   const src = models[model.toLowerCase()];
 

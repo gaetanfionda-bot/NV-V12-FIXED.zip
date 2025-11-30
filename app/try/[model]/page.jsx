@@ -3,14 +3,14 @@
 import { useRouter } from "next/navigation";
 import "@google/model-viewer";
 
-export default function TryOnViewer({ model }) {
+export default function TryOnViewer({ params }) {
   const router = useRouter();
+  const model = params.model;
 
   // Tous tes modèles GLB ici :
   const models = {
     ld007: "/models/LD007.glb",
-    // Tu pourras ajouter LD008 ici ensuite :
-    // ld008: "/models/LD008.glb",
+    // ld008: "/models/LD008.glb",   → à activer quand tu l’auras
   };
 
   const src = models[model?.toLowerCase()];
